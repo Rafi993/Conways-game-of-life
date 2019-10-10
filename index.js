@@ -16,7 +16,7 @@ const grid = createGrid({ x, y });
 //get DPI
 const dpi = window.devicePixelRatio;
 
-scaleCanvas = () => {
+const scaleCanvas = () => {
   const style_height = parseInt(
     getComputedStyle(canvas)
       .getPropertyValue("height")
