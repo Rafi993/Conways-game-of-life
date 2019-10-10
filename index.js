@@ -7,7 +7,7 @@ const createGrid = ({ x, y }) =>
   [...Array(x)].fill(0).map(() =>
     Array(y)
       .fill(0)
-      .map(() => (Math.floor(Math.random() * 2) === 1 ? 1 : 0))
+      .map(() => Math.floor(Math.random() * 100) + 1 > 98)
   );
 
 const grid = createGrid({ x, y });
