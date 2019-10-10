@@ -1,4 +1,5 @@
-const ctx = document.getElementById("canvas").getContext("2d");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
 const x = 400;
 const y = 400;
@@ -36,6 +37,9 @@ scaleCanvas = () => {
 };
 
 const draw = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.beginPath();
+
   scaleCanvas();
 
   grid.forEach((x, i) => {
