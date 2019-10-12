@@ -43,7 +43,7 @@ window.addEventListener("DOMContentLoaded", () => {
       timer = setInterval(() => {
         applyRules();
         draw();
-      }, 500);
+      }, 10);
       document.addEventListener("mousedown", canvasListener);
     } else {
       img.src = "static/dead.png";
