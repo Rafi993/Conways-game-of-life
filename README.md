@@ -1,2 +1,2 @@
-# Cellular-automata
-Implementing cellular automata using canvas
+# Conways game of life
+Implementing Conways game of life using canvas
