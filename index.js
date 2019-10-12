@@ -1,13 +1,40 @@
+import { initialGrid } from "./initialGrid";
+
 window.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
+  canvas.width = document.body.clientWidth; //document.width is obsolete
+  canvas.height = document.body.clientHeight; //document.height is obsolete
 
-  const x = 400;
-  const y = 400;
   let alive = false;
   let timer = null;
+  const boxHeight = 15;
+  const boxWidth = 15;
 
-  document.getElementById("state").addEventListener("click", () => {
+  const canvasListener = event => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.pageX - canvas.offsetLeft;
+    const y = event.pageY - canvas.offsetTop;
+
+    if (y >= 0) {
+      const indexX = Math.floor(x / boxWidth);
+      const indexY = Math.floor(y / boxHeight);
+      const value = grid[indexY][indexX];
+
+      if (value === 1) {
+        grid[indexY][indexX] = 0;
+        shadowGrid[indexY][indexX] = 0;
+      } else {
+        grid[indexY][indexX] = 1;
+        shadowGrid[indexY][indexX] = 1;
+      }
+      console.log(grid);
+      draw();
+    }
+  };
+
+  document.addEventListener("mousedown", canvasListener);
+  document.getElementById("state").addEventListener("mousedown", () => {
     alive = !alive;
     const img = document.getElementById("alive");
     if (alive) {
@@ -17,27 +44,23 @@ window.addEventListener("DOMContentLoaded", () => {
         applyRules();
         draw();
       }, 500);
+      document.addEventListener("mousedown", canvasListener);
     } else {
       img.src = "static/dead.png";
       img.title = "Start Animation";
       clearInterval(timer);
+      document.removeEventListener("click", canvasListener);
     }
   });
 
-  const createGrid = ({ x, y }) =>
-    [...Array(x)].fill(0).map(() =>
-      Array(y)
-        .fill(0)
-        .map(() => (Math.floor(Math.random() * 100) + 1 > 10 ? 0 : 1))
-    );
-
-  let grid = createGrid({ x, y });
+  let grid = initialGrid;
+  console.log(grid);
   let shadowGrid = JSON.parse(JSON.stringify(grid));
 
-  //get DPI
-  const dpi = window.devicePixelRatio;
-
   const scaleCanvas = () => {
+    //get DPI
+    const dpi = window.devicePixelRatio;
+
     const style_height = parseInt(
       getComputedStyle(canvas)
         .getPropertyValue("height")
@@ -61,7 +84,7 @@ window.addEventListener("DOMContentLoaded", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.beginPath();
 
-    scaleCanvas();
+    // scaleCanvas();
 
     grid.forEach((y, j) => {
       y.forEach((x, i) => {
@@ -70,7 +93,7 @@ window.addEventListener("DOMContentLoaded", () => {
         } else {
           ctx.fillStyle = "black";
         }
-        ctx.fillRect(i * 5, j * 5, 100, 100);
+        ctx.fillRect(i * boxWidth, j * boxHeight, boxWidth, boxHeight);
       });
     });
   };

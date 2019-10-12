@@ -6,14 +6,9 @@ body {
   overflow: hidden;
 }
 
-canvas {
-  width: 100%;
-  height: calc(100% - 4em);
-}
-
 .menubar {
   background: #000;
-  height: 4em;
+  height: 4.1em;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -31,4 +26,5 @@ canvas {
   height: 45px;
   width: 40px;
   border-radius: 50%;
+  user-select: none;
 }
